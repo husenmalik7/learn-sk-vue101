@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      {{ nama}} {{{ raw }}}
+      <br />
+
+      {{gender ? 'male' : 'female'}}
+
+      <br />
+      a {{a}} b {{b}}
+
+      <br />
+      {{ biodata }}
+
+      <!-- directive -->
+      <br />
+      <div v-if="gender">{{ gender }}</div>
+
+      <br />
+      <div v-if="gender">{{ gender }}</div>
+      <div v-else="gender">masuk ke else</div>
+
+      <br />
+      <!-- vshow just use css display none, if is banish the html -->
+      <div v-show="gender">{{ gender }}</div>
+
+      <br />
+      <br />
+      <div>
+        <ul>
+          <li v-for="member in members">
+            {{ member.name }} --- {{member.age}}
+          </li>
+        </ul>
+      </div>
+
+      <br />
+      <br />
+
+      <button v-on:click="clicked('this is text')">click me</button>
+
+      <br />
+      <br />
+
+      <input type="text" v-model="texty" />
+      <p>{{texty}}</p>
+
+      <!-- component -->
+      <br />
+      <br />
+
+      <the-template />
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.js"></script>
+    <script>
+      //define component
+      let newTemplate = Vue.extend({
+        template: "<h1>Testing h1</h1>",
+      });
+
+      //register component
+      Vue.component("the-template", newTemplate);
+
+      var vo = new Vue({
+        el: "#app",
+        data: {
+          nama: "udin",
+          umur: 100,
+          raw: "<p> is a human <p>",
+          gender: true,
+          a: 1,
+          members: [
+            { name: "udin", age: 22 },
+            { name: "jamal", age: 21 },
+            { name: "asep", age: 23 },
+          ],
+        },
+
+        computed: {
+          b: function () {
+            return this.a + 2;
+          },
+
+          //   biodata: function () {
+          //     return this.nama + this.raw;
+          //   },
+
+          biodata: {
+            get: function () {
+              return this.nama + " umurnya " + this.umur;
+            },
+            set: function (params) {
+              var credential = params.split(" ");
+
+              this.nama = credential[0];
+              this.umur = credential[1];
+            },
+          },
+        },
+
+        methods: {
+          clicked: function (text) {
+            console.log("the text is", text);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
